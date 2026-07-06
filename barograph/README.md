@@ -2,7 +2,7 @@
 
 Field Instrument No. 067. A Victorian observatory drum that records live weather from a personal weather station. The drum carries seven days of chart paper: pressure drawn in oxblood ink, temperature in prussian, with the pen resting on the present moment. Two pens ride the drum at once: brass stops beneath it choose which measurements they record, each writing in its own ink against its own scale. Around them, a shelf of instruments: mercury thermometer, aneroid barometer with set hand, hygrometer, wind rose, rain gauge, and a storm glass whose crystals answer the pressure trend.
 
-Current version: 1.4.0
+Current version: 1.4.1
 
 ## Data source
 
@@ -40,6 +40,7 @@ Single-file HTML, no build step, local-first, GPL-3.0. Night-default theming wit
 
 ## Changelog
 
+- 1.4.1: Gauge captions enlarged for legibility.
 - 1.4.0: Less apparatus, more chart. The faux cylinder is retired: time runs linear across a flat sheet of aged paper, and the pillars, spindle, plinth, and pen arm are gone. The seven inks, bold on-paper scales, day ruling, gust flicks, siphon rain, and the blank day ahead of the present all remain. New: hover readout, a hairline crosshair that snaps to the nearest observation with ink-ringed markers on each active trace and a card showing the time and values. Thirty tests.
 - 1.3.2: The pen no longer writes at the very edge of the paper. The drum now carries a day of blank ruled chart ahead of the present moment, so the pen rides about half an inch in from the right, with the coming day line preprinted on the empty paper before it.
 - 1.3.1: Legibility pass on the drum scales. Numerals are now printed on the chart paper inside the margins, large and bold in their trace's ink, with a paper-colored halo so they stay readable where a trace crosses them. The right-hand scale no longer hides behind the pen gantry. Unit tags moved inside the top corners in the same style.
