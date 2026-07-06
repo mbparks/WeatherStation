@@ -1,8 +1,8 @@
 # BAROGRAPH
 
-Field Instrument No. 067. A Victorian observatory drum that records live weather from a personal weather station. The drum carries seven days of chart paper: pressure drawn in oxblood ink, temperature in prussian, with the pen resting on the present moment. Below the drum, a column of registers keeps a seven-day record of every measurement: anemograph for wind, hygrograph for humidity, pluviograph for rainfall, actinograph for sunshine and ultraviolet. Around them, a shelf of instruments: mercury thermometer, aneroid barometer with set hand, hygrometer, wind rose, rain gauge, and a storm glass whose crystals answer the pressure trend.
+Field Instrument No. 067. A Victorian observatory drum that records live weather from a personal weather station. The drum carries seven days of chart paper: pressure drawn in oxblood ink, temperature in prussian, with the pen resting on the present moment. Two pens ride the drum at once: brass stops beneath it choose which measurements they record, each writing in its own ink against its own scale. Around them, a shelf of instruments: mercury thermometer, aneroid barometer with set hand, hygrometer, wind rose, rain gauge, and a storm glass whose crystals answer the pressure trend.
 
-Current version: 1.2.2
+Current version: 1.3.0
 
 ## Data source
 
@@ -10,8 +10,7 @@ BAROGRAPH is fed by WX-RELAY, a Cloudflare Worker that proxies the Weather Under
 
 ## Features
 
-- Full meteorograph wall: every measurement carries its own weeklong register on matching chart paper, all built on one generic strip renderer. The hygrograph traces relative humidity in sunbury with DRY, TEMPERATE, and DAMP engraved at the margin. The pluviograph traces daily cumulative rainfall in indigo, and the trace drops to nought at midnight in the manner of a siphon rain recorder. The actinograph traces solar radiation in burnt umber with the ultraviolet index stippled above it. Day lines align down the whole column.
-- Anemograph register: wind speed traced in verdigris ink on a second strip sharing the drum's cylindrical geometry, so day lines align between the two records. Gusts are recorded as vertical pen flicks in the manner of a recording anemometer, and Beaufort words (BREEZE, FRESH, NEAR GALE, GALE, STORM) are engraved at the right margin where they fall within scale.
+- Two pens, seven inks: pressure (oxblood), temperature (prussian), wind (verdigris, with gusts as pen flicks), humidity (sunbury), rain (indigo, dropping to nought at midnight in the manner of a siphon recorder), sun (burnt umber), and ultraviolet (iron gall). Brass stops beneath the drum toggle measurements on and off, up to two at a time; the first choice takes the left-hand scale and grid, the newest takes the right-hand scale, and choosing a third lifts the oldest pen. Scale numerals are printed in their trace's ink, and the plinth engraving names the active inks. The selection persists with your settings.
 - Seven-day drum with cylindrical wrap: time compresses toward the drum edges, grid lines sag with the paper, a brass pen arm scratches at the last observation, and the drum sits in flickering gaslight in the night theme.
 - Aneroid barometer with a set hand marking the reading three hours past, in the manner of a hall barometer, plus classic RAIN / CHANGE / FAIR engraving.
 - Storm glass with four states (clear, faint haze, blooming stars, climbing ferns) keyed to the three-hour pressure trend, with period-appropriate captions.
@@ -23,7 +22,7 @@ BAROGRAPH is fed by WX-RELAY, a Cloudflare Worker that proxies the Weather Under
 
 ## Test harness
 
-Append `?test=1` to the page URL to run the built-in harness in the browser. The same twenty-six tests run headless in node by extracting the embedded script. Coverage: WU payload normalization, series building and de-duplication, pressure trend thresholds, storm glass states, compass points, drum geometry monotonicity and edge compression, Beaufort scale words, wind, gust, rain, solar, and ultraviolet extraction from history fields, humidity and sun words, weekly rainfall summation, tidy scale maxima, register well-formedness, demo determinism and siphon behavior, SVG well-formedness across all three themes, and WCAG contrast ratios for every theme palette.
+Append `?test=1` to the page URL to run the built-in harness in the browser. The same twenty-nine tests run headless in node by extracting the embedded script. Coverage: WU payload normalization, series building and de-duplication, pressure trend thresholds, storm glass states, compass points, drum geometry monotonicity and edge compression, Beaufort scale words, wind, gust, rain, solar, and ultraviolet extraction from history fields, humidity and sun words, weekly rainfall summation, tidy scale maxima, channel toggling limits, per-channel scale domains, every channel pairing across themes, demo determinism and siphon behavior, SVG well-formedness across all three themes, and WCAG contrast ratios for every theme palette.
 
 ## Known limitations
 
@@ -31,7 +30,7 @@ Append `?test=1` to the page URL to run the built-in harness in the browser. The
 - Typefaces (IM Fell English) load from Google Fonts. Without a network the instrument degrades gracefully to Georgia and remains fully functional; a self-hosted font option is a candidate for a later release.
 - Drum history depends on the WU history endpoints. A station that only recently began reporting will show a shorter trace.
 - The seven previous-day history fetches happen once per hour; a station with gaps in its record will show pen lifts (breaks) in the trace, which is honest behavior for a barograph.
-- The pluviograph relies on the station's day-cumulative rainfall total; a station that resets its total on a different schedule will show the siphon drop at its own reset hour.
+- The rain channel relies on the station's day-cumulative rainfall total; a station that resets its total on a different schedule will show the siphon drop at its own reset hour.
 - The storm glass is poetic, not predictive. Real storm glasses were not predictive either.
 
 ## Development standards
@@ -40,6 +39,7 @@ Single-file HTML, no build step, local-first, GPL-3.0. Night-default theming wit
 
 ## Changelog
 
+- 1.3.0: One drum, seven inks, two pens. The register wall is consolidated onto the drum itself: brass stops beneath it toggle any measurement on or off, two at a time, each trace in its own ink with its own scale (first choice left, newest right). Choosing a third lifts the oldest pen; the drum always keeps at least one. Ultraviolet gains its own iron gall ink. The generic register strip and the four standalone registers are retired. Selection persists in settings and export. Twenty-nine tests.
 - 1.2.2: Rain gauge fix: a trace amount of rain smaller than the glass inset produced a negative fill height and a console error; the water level is now clamped so any measurable rain shows at least a sliver. Inline SVG favicon added (a small drum in brass and oxblood), ending the favicon 404. Edge-value regression test across all dial builders. Twenty-eight tests.
 - 1.2.1: Trace geometry fix: ink lines now follow the paper's curvature exactly on every register, matching their grid lines. Previously traces rode 26 pixels high against their scales and values near the top of a scale could crest over the paper rim. Register value bands are now inset from the rims, with a regression test pinning a 100 percent trace against the top edge. The hygrograph's ink is properly named sunbury. Twenty-seven tests.
 - 1.2.0: The full meteorograph. Three new registers below the anemograph: hygrograph (humidity in sunbury), pluviograph (daily cumulative rainfall in indigo with siphon resets at midnight), and actinograph (solar radiation in burnt umber, ultraviolet stippled). All four strips rewritten onto one generic register renderer. Rain, solar, and ultraviolet now collected in series, refresh, cache, and demo weather. Six new harness tests, twenty-six in all.
